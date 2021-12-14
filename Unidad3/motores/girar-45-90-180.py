@@ -77,6 +77,7 @@ while robot.step(timeStep) != -1:
     wheelL.setVelocity(speed[0])
     wheelR.setVelocity(speed[1])
 
+    # esto es solo para que no inicie a girar a penas arranca el programa
     delay(1000)
 
     # como el robot no esta sensando nada, forzamos un cierre del condicional para que solo gire un determinado tiempo una única vez
