@@ -32,6 +32,8 @@ def delay(ms):
             break
 
 
+# TODOS LOS GIROS DEPENDEN DE LA VELOCIDAD Y EL TIEMPO
+
 # función girar 45 grados
 def girar45():
     speed[0] = -0.5 * max_velocity
