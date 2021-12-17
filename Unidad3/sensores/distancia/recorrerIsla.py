@@ -90,18 +90,17 @@ def hayPared():
     giroIzq()
     delay(700)
 
-# con esta función logramos que el robot avance solo cuando de frente no haya paredes y a la derecha haya paredes
-# el robot sigue la pared derecha
+# modificamos la función "ir derecha"
 def irDerecha(valorDistancia):
-    if valorDistancia[0] < 0.07:
+    if valorDistancia[0] < 0.07: # detecta pared entonces gira a la izquierda
         hayPared()
-    elif valorDistancia[0] > 0.07 and valorDistancia[2] < 0.1:
+    elif valorDistancia[0] > 0.07 and valorDistancia[2] < 0.1: # cuando no hay pared adelante y tiene una pared a la derecha avanza
         avanzar()
         delay(10)
-    elif valorDistancia[0] > 0.07 and valorDistancia[2] > 0.1:
+    elif valorDistancia[0] > 0.07 and valorDistancia[2] > 0.1: # cuando deja de detectar pared gira a la derecha hasta encontrar de nuevo una pared a la derecha
         print(valorDistancia)
         avanzar()
-        delay(450)
+        delay(300)
         giroDer()
         print("giro derecha")
         delay(700)
@@ -118,5 +117,4 @@ while robot.step(timeStep) != -1:
         valorDistancia[i] = sensoresDistancia[i].getValue() # llenamos el array con los valores de los sensores
       
     irDerecha(valorDistancia)
-    print(valorDistancia)
     correcciones(valorDistancia)
