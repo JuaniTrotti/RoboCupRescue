@@ -60,12 +60,12 @@ def giroDer():
 def correcciones(valorDistancia):
     if valorDistancia[2] > 0.07:
         giroDer()
-        delay(10)
+        delay(5)
         avanzar()
         delay(10)
     elif valorDistancia[2] < 0.05:
         giroIzq()
-        delay(10)
+        delay(5)
         avanzar()
         delay(10)
 
