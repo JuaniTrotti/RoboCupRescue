@@ -58,5 +58,3 @@ while robot.step(timeStep) != -1:
 
     # una vez que tenemos los 4 valores de los sensores llamamos a la función para analizar si hay que frenar o seguir
     hayPared(valorDistancia)
-
-
