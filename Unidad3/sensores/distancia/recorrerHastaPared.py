@@ -1,4 +1,5 @@
-# apnuntar el robot donde no haya paredes
+# ejercicio: recorrer por derecha hasta zona de parking
+# el robot tiene que estacionar en la zona donde haya tres paredes
 from controller import Robot, DistanceSensor
 
 # estas variables siempre tienen que estar
@@ -38,6 +39,9 @@ def girar90():
     wheelR.setVelocity(speed[1])
     delay(720)
 
+
+# funciones para aplicar velocidades a las ruedas, para que doble a la izquiera y derecha.
+# para usarlas hay que poner un delay después de llamarlas, para que gira una determinada cantidad de tiempo.
 def giroIzq():
     speed[0] = -0.5 * max_velocity
     speed[1] = 0.5 * max_velocity
