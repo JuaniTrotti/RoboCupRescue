@@ -1,5 +1,6 @@
 # ejercicio: recorrer por derecha hasta zona de parking
 # el robot tiene que estacionar en la zona donde haya tres paredes
+# para resolver este ejercicio hay que hacer uso de la configuración avanzada de la estructura del robot
 from controller import Robot, DistanceSensor
 
 # estas variables siempre tienen que estar
