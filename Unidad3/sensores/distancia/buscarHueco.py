@@ -37,7 +37,7 @@ def girar90():
     delay(700)
 
 
-# esta función es para saber que sensores estan viendo un objeto y cuales no, en especial tratamos el sensor que está al frente
+# nos fijamos si un sensor esta viendo una pared
 def hayPared(valorDistancia):
     if valorDistancia[0] < 0.1:
         print("Tengo una pared en frente")
