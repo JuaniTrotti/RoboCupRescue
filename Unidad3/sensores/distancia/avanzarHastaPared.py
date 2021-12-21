@@ -38,7 +38,7 @@ def avanzar():
     wheelL.setVelocity(speed[0])
     wheelR.setVelocity(speed[1])
 
-# modificamos la función "hay pared" para que frene cuando vea una en frente
+# modificamos la función "hay pared" para que frene cuando vea una en frente.
 def hayPared(valorDistancia):
     if valorDistancia[0] < 0.06:
         frenar()
