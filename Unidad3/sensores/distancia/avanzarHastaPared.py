@@ -20,7 +20,7 @@ valorDistancia = []  # creamos un array para los valores de los sensores, para t
                      # en la posición 0
 
 for i in range(4):
-    sensoresDistancia.append(robot.getDevice("distance sensor" + str(i)))
+    sensoresDistancia.append(robot.getDevice("ps" + str(i)))
     sensoresDistancia[i].enable(timeStep)
     valorDistancia.append(0)  # inicializamos el arreglo en 0
 

@@ -16,6 +16,7 @@ wheelL.setPosition(float("inf"))
 wheelR.setPosition(float("inf"))
 
 sensoresDistancia = []
+valorDistancia = []
 
 def delay(ms):
     initTime = robot.getTime()
@@ -24,8 +25,9 @@ def delay(ms):
             break
 
 for i in range(4):
-    sensoresDistancia.append(robot.getDevice("distance sensor" + str(i)))
+    sensoresDistancia.append(robot.getDevice("ps" + str(i)))
     sensoresDistancia[i].enable(timeStep)
+    valorDistancia.append(0)
 
 def girar90():
     speed[0] = -0.5 * max_velocity
@@ -36,18 +38,16 @@ def girar90():
 
 
 # esta función es para saber que sensores estan viendo un objeto y cuales no, en especial tratamos el sensor que está al frente
-def hayPared(distancia, i):
-    if distancia < 0.1 :
-        print("Hay pared en sensor " + str(i))
-        return True
+def hayPared(valorDistancia):
+    if valorDistancia[0] < 0.1:
+        print("Tengo una pared en frente")
+        encarar()
     else:
-        print("No hay pared en sensor " + str(i))
-        return False
+        print("No tengo una pared en frente")
 
 # el robot gira
-def encarar(i):
-    if i == 0:
-        girar90()
+def encarar():
+    girar90()
 
 
 while robot.step(timeStep) != -1:
@@ -57,6 +57,6 @@ while robot.step(timeStep) != -1:
     wheelR.setVelocity(speed[1])
 
     for i in range(4):
-        distancia = sensoresDistancia[i].getValue()
-        if hayPared(distancia, i) == True:
-            encarar(i) # si el sensor frontal ve una pared gira hasta que no vea mas una pared
+        valorDistancia[i] = sensoresDistancia[i].getValue()
+
+    hayPared(valorDistancia)

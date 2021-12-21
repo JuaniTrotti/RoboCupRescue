@@ -14,7 +14,7 @@ sensoresDistancia = []
 # usamos un for para agregar todos los sensores en las posiciones del array y los activamos. 
 # IMPORTANTE, LOS ARRAYS EN PYTHON COMIENZAN EN LA POSICIÓN 0, es decir que los sensores que tengas tienen que ser así: sensor0, sensor1 .... sensor N
 for i in range(4):
-    sensoresDistancia.append(robot.getDevice("distance sensor" + str(i))) # con la funcion str() convertimos i (que es un entero) en un string y asi podemos concatenar. 
+    sensoresDistancia.append(robot.getDevice("ps" + str(i))) # con la funcion str() convertimos i (que es un entero) en un string y asi podemos concatenar. 
     sensoresDistancia[i].enable(timeStep) # aca el elemento que está en la posición i del array lo activamos.
 
 while robot.step(timeStep) != -1:
