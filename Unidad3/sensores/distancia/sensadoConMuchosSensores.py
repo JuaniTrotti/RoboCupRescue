@@ -19,7 +19,7 @@ for i in range(4):
 
 while robot.step(timeStep) != -1:
 
-    # usamos un for para consultar el valor de cada sensor
+    # usamos un for para consultar el valor de cada sensor.
     for i in range(4):
         distancia = sensoresDistancia[i].getValue() # obtenemos el valor del sensor
         print("distancia" + str(i) + ":" + str(distancia)) # imprimimos el sensor con su valor
