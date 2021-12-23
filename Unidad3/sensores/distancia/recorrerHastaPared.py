@@ -4,15 +4,15 @@
 from controller import Robot, DistanceSensor
 
 # estas variables siempre tienen que estar
-timeStep = 32
-max_velocity = 6.28
+TIME_STEP = 32
+MAX_VEL = 6.28
 
 robot = Robot()
 
 wheelL = robot.getDevice("wheel2 motor")
 wheelR = robot.getDevice("wheel1 motor")
 
-speed = [max_velocity, max_velocity]
+speed = [MAX_VEL, MAX_VEL]
 
 wheelL.setPosition(float("inf"))
 wheelR.setPosition(float("inf"))
@@ -23,19 +23,19 @@ valorDistancia = []  # creamos un array para los valores de los sensores, para t
 
 for i in range(4):
     sensoresDistancia.append(robot.getDevice("distance sensor" + str(i)))
-    sensoresDistancia[i].enable(timeStep)
+    sensoresDistancia[i].enable(TIME_STEP)
     valorDistancia.append(0)  # inicializamos el arreglo en 0
 
 
 def delay(ms):
     initTime = robot.getTime()
-    while robot.step(timeStep) != -1:
+    while robot.step(TIME_STEP) != -1:
         if (robot.getTime() - initTime) * 1000.0 > ms:
             break
 
 def girar90():
-    speed[0] = 0.5 * max_velocity
-    speed[1] = -0.5 * max_velocity
+    speed[0] = 0.5 * MAX_VEL
+    speed[1] = -0.5 * MAX_VEL
     wheelL.setVelocity(speed[0])
     wheelR.setVelocity(speed[1])
     delay(720)
@@ -44,14 +44,14 @@ def girar90():
 # funciones para aplicar velocidades a las ruedas, para que doble a la izquiera y derecha.
 # para usarlas hay que poner un delay después de llamarlas, para que gira una determinada cantidad de tiempo.
 def giroIzq():
-    speed[0] = -0.5 * max_velocity
-    speed[1] = 0.5 * max_velocity
+    speed[0] = -0.5 * MAX_VEL
+    speed[1] = 0.5 * MAX_VEL
     wheelL.setVelocity(speed[0])
     wheelR.setVelocity(speed[1])
 
 def giroDer():
-    speed[0] = 0.5 * max_velocity
-    speed[1] = -0.5 * max_velocity
+    speed[0] = 0.5 * MAX_VEL
+    speed[1] = -0.5 * MAX_VEL
     wheelL.setVelocity(speed[0])
     wheelR.setVelocity(speed[1])
 
@@ -81,8 +81,8 @@ def frenar():
 
 # función para que el robot avance
 def avanzar():
-    speed[0] = max_velocity
-    speed[1] = max_velocity
+    speed[0] = MAX_VEL
+    speed[1] = MAX_VEL
     wheelL.setVelocity(speed[0])
     wheelR.setVelocity(speed[1])
 
@@ -110,7 +110,7 @@ def irDerecha(valorDistancia):
         else: # si no hay una pared a la izquierda todavía no llego a la zona de frenado
             hayPared(valorDistancia)
 
-while robot.step(timeStep) != -1:
+while robot.step(TIME_STEP) != -1:
     speed[0] = 0
     speed[1] = 0
     wheelL.setVelocity(speed[0])

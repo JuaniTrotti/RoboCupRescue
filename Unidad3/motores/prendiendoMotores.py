@@ -2,8 +2,8 @@
 from controller import Robot 
 
 # estas variables siempre tienen que estar
-timeStep = 32
-max_velocity = 6.28
+TIME_STEP = 32
+MAX_VEL = 6.28
 
 
 #creamos la instancia del controlador del robot
@@ -14,17 +14,17 @@ wheelL = robot.getDevice("wheel2 motor")
 wheelR = robot.getDevice("wheel1 motor")
 
 #velocidad de las ruedas, cada posición del array corresponde a una rueda
-speed = [max_velocity, max_velocity]
+speed = [MAX_VEL, MAX_VEL]
 
 #definimos la rotación de las ruedas para que esa infinita
 wheelL.setPosition(float("inf"))
 wheelR.setPosition(float("inf"))
 
 
-while robot.step(timeStep) != -1:
+while robot.step(TIME_STEP) != -1:
     # acá definimos que velocidad va a tener cada posición del array
-    speed[0] = max_velocity
-    speed[1] = max_velocity
+    speed[0] = MAX_VEL
+    speed[1] = MAX_VEL
 
     # acá setiamos la velocidad a cada rueda. Es importante que cada rueda tenga una velocidad independiente. 
     # más adelante lo usaremos para hacer giros

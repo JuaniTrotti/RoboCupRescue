@@ -2,8 +2,8 @@
 from controller import Robot
 
 # estas variables siempre tienen que estar
-timeStep = 32
-max_velocity = 6.28
+TIME_STEP = 32
+MAX_VEL = 6.28
 
 # variable para romper condicional
 cont = 1
@@ -16,7 +16,7 @@ wheelL = robot.getDevice("wheel2 motor")
 wheelR = robot.getDevice("wheel1 motor")
 
 #velocidad de las ruedas, cada posición del array corresponde a una rueda
-speed = [max_velocity, max_velocity]
+speed = [MAX_VEL, MAX_VEL]
 
 #definimos la rotación de las ruedas para que esa infinita
 wheelL.setPosition(float("inf"))
@@ -27,7 +27,7 @@ wheelR.setPosition(float("inf"))
 # esta función sirve para que el robot no haga caso a ninguna nueva instrucción durante un determinado tiempo
 def delay(ms):
     initTime = robot.getTime()
-    while robot.step(timeStep) != -1:
+    while robot.step(TIME_STEP) != -1:
         if (robot.getTime() - initTime) * 1000.0 > ms:
             break
 
@@ -36,24 +36,24 @@ def delay(ms):
 
 # función girar 45 grados
 def girar45():
-    speed[0] = -0.5 * max_velocity
-    speed[1] = 0.5 * max_velocity
+    speed[0] = -0.5 * MAX_VEL
+    speed[1] = 0.5 * MAX_VEL
     wheelL.setVelocity(speed[0])
     wheelR.setVelocity(speed[1])
     delay(350)
 
 # función girar 90 grados
 def girar90():
-    speed[0] = -0.5 * max_velocity
-    speed[1] = 0.5 * max_velocity
+    speed[0] = -0.5 * MAX_VEL
+    speed[1] = 0.5 * MAX_VEL
     wheelL.setVelocity(speed[0])
     wheelR.setVelocity(speed[1])
     delay(700)
 
 # función girar 180 grados
 def girar180():
-    speed[0] = -0.5 * max_velocity
-    speed[1] = 0.5 * max_velocity
+    speed[0] = -0.5 * MAX_VEL
+    speed[1] = 0.5 * MAX_VEL
     wheelL.setVelocity(speed[0])
     wheelR.setVelocity(speed[1])
     delay(1400)
@@ -72,7 +72,7 @@ def esperar():
     delay(1000)
 
 #esta es la parte principal del programa. Adentro del while se pone todo lo que va a pasar durante la ejecucion del robot
-while robot.step(timeStep) != -1:
+while robot.step(TIME_STEP) != -1:
     speed[0] = 0
     speed[1] = 0
     # forzamos que el robot este quieto solo para esta prueba de giro
