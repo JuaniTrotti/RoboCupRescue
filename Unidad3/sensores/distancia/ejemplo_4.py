@@ -1,4 +1,4 @@
-# Ejemplo: Mostrando el valor del sensor ps0
+# Ejemplo: Habilitando todos los sensores de distancia  
 from controller import Robot
 
 TIME_STEP = 32
