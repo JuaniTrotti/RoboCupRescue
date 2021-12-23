@@ -12,8 +12,8 @@ cont = 1
 robot = Robot()
 
 #creamos los objetos para controlar las ruedas
-wheelL = robot.getDevice("wheel2 motor")
-wheelR = robot.getDevice("wheel1 motor")
+wheelL = robot.getDevice("wheel1 motor")
+wheelR = robot.getDevice("wheel2 motor")
 
 #velocidad de las ruedas, cada posición del array corresponde a una rueda
 speed = [MAX_VEL, MAX_VEL]

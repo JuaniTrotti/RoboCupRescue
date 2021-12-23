@@ -79,4 +79,3 @@ while robot.step(TIME_STEP) != -1:
         girar180()
         avanzar()
         cont += 1
-    
