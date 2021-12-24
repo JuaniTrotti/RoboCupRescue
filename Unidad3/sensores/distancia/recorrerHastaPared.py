@@ -9,8 +9,8 @@ MAX_VEL = 6.28
 
 robot = Robot()
 
-wheelL = robot.getDevice("wheel2 motor")
-wheelR = robot.getDevice("wheel1 motor")
+wheelL = robot.getDevice("wheel1 motor")
+wheelR = robot.getDevice("wheel2 motor")
 
 speed = [MAX_VEL, MAX_VEL]
 
@@ -34,8 +34,8 @@ def delay(ms):
             break
 
 def girar90():
-    speed[0] = 0.5 * MAX_VEL
-    speed[1] = -0.5 * MAX_VEL
+    speed[0] = -0.5 * MAX_VEL
+    speed[1] = 0.5 * MAX_VEL
     wheelL.setVelocity(speed[0])
     wheelR.setVelocity(speed[1])
     delay(720)
@@ -44,14 +44,14 @@ def girar90():
 # funciones para aplicar velocidades a las ruedas, para que doble a la izquiera y derecha.
 # para usarlas hay que poner un delay después de llamarlas, para que gira una determinada cantidad de tiempo.
 def giroIzq():
-    speed[0] = -0.5 * MAX_VEL
-    speed[1] = 0.5 * MAX_VEL
+    speed[0] = 0.5 * MAX_VEL
+    speed[1] = -0.5 * MAX_VEL
     wheelL.setVelocity(speed[0])
     wheelR.setVelocity(speed[1])
 
 def giroDer():
-    speed[0] = 0.5 * MAX_VEL
-    speed[1] = -0.5 * MAX_VEL
+    speed[0] = -0.5 * MAX_VEL
+    speed[1] = 0.5 * MAX_VEL
     wheelL.setVelocity(speed[0])
     wheelR.setVelocity(speed[1])
 
@@ -111,10 +111,6 @@ def irDerecha(valorDistancia):
             hayPared(valorDistancia)
 
 while robot.step(TIME_STEP) != -1:
-    speed[0] = 0
-    speed[1] = 0
-    wheelL.setVelocity(speed[0])
-    wheelR.setVelocity(speed[1])
 
     for i in range(4):
         valorDistancia[i] = sensoresDistancia[i].getValue() # llenamos el array con los valores de los sensores

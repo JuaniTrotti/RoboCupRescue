@@ -31,8 +31,8 @@ def frenar():
 
 # función para que el robot avance
 def avanzar():
-    # speed[0] = MAX_VEL
-    # speed[1] = MAX_VEL
+    speed[0] = MAX_VEL
+    speed[1] = MAX_VEL
 
 # modificamos la función "hay pared" para que frene cuando vea una en frente.
 def hayPared(valorDistancia):
