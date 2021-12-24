@@ -12,8 +12,8 @@ cont = 1
 robot = Robot()
 
 #creamos los objetos para controlar las ruedas
-wheelL = robot.getDevice("wheel2 motor")
-wheelR = robot.getDevice("wheel1 motor")
+wheelL = robot.getDevice("wheel1 motor")
+wheelR = robot.getDevice("wheel2 motor")
 
 #velocidad de las ruedas, cada posición del array corresponde a una rueda
 speed = [MAX_VEL, MAX_VEL]
@@ -29,53 +29,29 @@ def delay(ms):
         if (robot.getTime() - initTime) * 1000.0 > ms:
             break
 
-def girar90():
-    speed[0] = -0.5 * MAX_VEL
-    speed[1] = 0.5 * MAX_VEL
-    wheelL.setVelocity(speed[0])
-    wheelR.setVelocity(speed[1])
-    delay(700)
-
-def girar180():
-    speed[0] = -0.5 * MAX_VEL
-    speed[1] = 0.5 * MAX_VEL
-    wheelL.setVelocity(speed[0])
-    wheelR.setVelocity(speed[1])
-    delay(1400)
-
-
 # funciones nuevas
 # avanza en línea recta
 def avanzar():
     speed[0] = MAX_VEL
     speed[1] = MAX_VEL
     wheelL.setVelocity(speed[0])
-    wheelR.setVelocity(speed[0])
-    delay(2600)
+    wheelR.setVelocity(speed[1])
+    delay(1600)
 
 # retroce en línea recta
 def retroceder():
     speed[0] = MAX_VEL *-1
     speed[1] = MAX_VEL *-1
     wheelL.setVelocity(speed[0])
-    wheelR.setVelocity(speed[0])
-    delay(2600)
-
-while robot.step(TIME_STEP) != -1:
-    speed[0] = 0
-    speed[1] = 0
-    wheelL.setVelocity(speed[0])
     wheelR.setVelocity(speed[1])
-    
-    # solución uno. retrocede de espaldas
-    if cont == 1:
-        girar90() #esto es necesario en este caso, solo para que el robot apunte a la pista
-        avanzar()
-        retroceder()
-        cont += 1
-    # solución dos. cuando pasa el tiempo determinado se da vuelta y vuelve mirando 
+    delay(1600)
+
+while robot.step(TIME_STEP) != -1: 
+
     if cont == 2:
-        avanzar() 
-        girar180()
+        retroceder()
+        cont -= 1
+  
+    if cont == 1:
         avanzar()
         cont += 1
