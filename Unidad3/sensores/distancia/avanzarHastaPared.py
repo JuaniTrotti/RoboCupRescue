@@ -43,8 +43,6 @@ def hayPared(valorDistancia):
         avanzar()
 
 while robot.step(TIME_STEP) != -1:
-    # speed[0] = 0
-    # speed[1] = 0
 
     for i in range(4):
         valorDistancia[i] = sensoresDistancia[i].getValue() # llenamos el array con los valores de los sensores
