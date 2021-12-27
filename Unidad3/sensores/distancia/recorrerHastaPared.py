@@ -12,8 +12,6 @@ robot = Robot()
 wheelL = robot.getDevice("wheel1 motor")
 wheelR = robot.getDevice("wheel2 motor")
 
-speed = [MAX_VEL, MAX_VEL]
-
 wheelL.setPosition(float("inf"))
 wheelR.setPosition(float("inf"))
 
@@ -26,7 +24,6 @@ for i in range(4):
     sensoresDistancia[i].enable(TIME_STEP)
     valorDistancia.append(0)  # inicializamos el arreglo en 0
 
-
 def delay(ms):
     initTime = robot.getTime()
     while robot.step(TIME_STEP) != -1:
@@ -38,7 +35,6 @@ def girar90():
     wheelR.setVelocity(0.5 * MAX_VEL)
     delay(720)
 
-
 # funciones para aplicar velocidades a las ruedas, para que doble a la izquiera y derecha.
 # para usarlas hay que poner un delay después de llamarlas, para que gira una determinada cantidad de tiempo.
 def giroIzq():
@@ -48,7 +44,6 @@ def giroIzq():
 def giroDer():
     wheelL.setVelocity(-0.5 * MAX_VEL)
     wheelR.setVelocity(0.5 * MAX_VEL)
-
 
 # esta función la usamos para hacer pequeñas correcciones en el camino del robot, porque puede separarse de la pared y entrar en un bucle.
 # con esta función evitamos eso.
@@ -63,8 +58,6 @@ def correcciones(valorDistancia):
         delay(5)
         avanzar()
         delay(10)
-
-
 
 # función para frenar el robot
 def frenar():
