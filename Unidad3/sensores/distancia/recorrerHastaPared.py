@@ -34,26 +34,20 @@ def delay(ms):
             break
 
 def girar90():
-    speed[0] = -0.5 * MAX_VEL
-    speed[1] = 0.5 * MAX_VEL
-    wheelL.setVelocity(speed[0])
-    wheelR.setVelocity(speed[1])
+    wheelL.setVelocity(-0.5 * MAX_VEL)
+    wheelR.setVelocity(0.5 * MAX_VEL)
     delay(720)
 
 
 # funciones para aplicar velocidades a las ruedas, para que doble a la izquiera y derecha.
 # para usarlas hay que poner un delay después de llamarlas, para que gira una determinada cantidad de tiempo.
 def giroIzq():
-    speed[0] = 0.5 * MAX_VEL
-    speed[1] = -0.5 * MAX_VEL
-    wheelL.setVelocity(speed[0])
-    wheelR.setVelocity(speed[1])
+    wheelL.setVelocity(0.5 * MAX_VEL)
+    wheelR.setVelocity(-0.5 * MAX_VEL)
 
 def giroDer():
-    speed[0] = -0.5 * MAX_VEL
-    speed[1] = 0.5 * MAX_VEL
-    wheelL.setVelocity(speed[0])
-    wheelR.setVelocity(speed[1])
+    wheelL.setVelocity(-0.5 * MAX_VEL)
+    wheelR.setVelocity(0.5 * MAX_VEL)
 
 
 # esta función la usamos para hacer pequeñas correcciones en el camino del robot, porque puede separarse de la pared y entrar en un bucle.
@@ -74,17 +68,13 @@ def correcciones(valorDistancia):
 
 # función para frenar el robot
 def frenar():
-    speed[0] = 0
-    speed[1] = 0
-    wheelL.setVelocity(speed[0])
-    wheelR.setVelocity(speed[1])   
+    wheelL.setVelocity(0)
+    wheelR.setVelocity(0)   
 
 # función para que el robot avance
 def avanzar():
-    speed[0] = MAX_VEL
-    speed[1] = MAX_VEL
-    wheelL.setVelocity(speed[0])
-    wheelR.setVelocity(speed[1])
+    wheelL.setVelocity(MAX_VEL)
+    wheelR.setVelocity(MAX_VEL)
 
 # modificamos la función "hay pared" para que frene y doble a la izquierda
 def hayPared(valorDistancia):

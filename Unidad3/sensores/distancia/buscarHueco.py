@@ -10,8 +10,6 @@ robot = Robot()
 wheelL = robot.getDevice("wheel2 motor")
 wheelR = robot.getDevice("wheel1 motor")
 
-speed = [MAX_VEL, MAX_VEL]
-
 wheelL.setPosition(float("inf"))
 wheelR.setPosition(float("inf"))
 
@@ -30,10 +28,8 @@ for i in range(4):
     valorDistancia.append(0)
 
 def girar90():
-    speed[0] = -0.5 * MAX_VEL
-    speed[1] = 0.5 * MAX_VEL
-    wheelL.setVelocity(speed[0])
-    wheelR.setVelocity(speed[1])
+    wheelL.setVelocity(-0.5 * MAX_VEL)
+    wheelR.setVelocity(0.5 * MAX_VEL)
     delay(700)
 
 
@@ -51,10 +47,10 @@ def encarar():
 
 
 while robot.step(TIME_STEP) != -1:
-    speed[0] = 0
-    speed[1] = 0
-    wheelL.setVelocity(speed[0])
-    wheelR.setVelocity(speed[1])
+    # speed[0] = 0
+    # speed[1] = 0
+    # wheelL.setVelocity(speed[0])
+    # wheelR.setVelocity(speed[1])
 
     for i in range(4):
         valorDistancia[i] = sensoresDistancia[i].getValue()

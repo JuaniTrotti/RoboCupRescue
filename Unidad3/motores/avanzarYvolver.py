@@ -15,8 +15,6 @@ robot = Robot()
 wheelL = robot.getDevice("wheel1 motor")
 wheelR = robot.getDevice("wheel2 motor")
 
-#velocidad de las ruedas, cada posición del array corresponde a una rueda
-speed = [MAX_VEL, MAX_VEL]
 
 #definimos la rotación de las ruedas para que esa infinita
 wheelL.setPosition(float("inf"))
@@ -32,18 +30,14 @@ def delay(ms):
 # funciones nuevas
 # avanza en línea recta
 def avanzar():
-    speed[0] = MAX_VEL
-    speed[1] = MAX_VEL
-    wheelL.setVelocity(speed[0])
-    wheelR.setVelocity(speed[1])
+    wheelL.setVelocity(MAX_VEL)
+    wheelR.setVelocity(MAX_VEL)
     delay(1600)
 
 # retroce en línea recta
 def retroceder():
-    speed[0] = MAX_VEL *-1
-    speed[1] = MAX_VEL *-1
-    wheelL.setVelocity(speed[0])
-    wheelR.setVelocity(speed[1])
+    wheelL.setVelocity(MAX_VEL *-1)
+    wheelR.setVelocity(MAX_VEL *-1)
     delay(1600)
 
 while robot.step(TIME_STEP) != -1: 

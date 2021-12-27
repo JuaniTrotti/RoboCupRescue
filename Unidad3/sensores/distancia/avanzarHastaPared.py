@@ -10,8 +10,6 @@ robot = Robot()
 wheelL = robot.getDevice("wheel1 motor")
 wheelR = robot.getDevice("wheel2 motor")
 
-speed = [MAX_VEL, MAX_VEL]
-
 wheelL.setPosition(float("inf"))
 wheelR.setPosition(float("inf"))
 
@@ -26,13 +24,13 @@ for i in range(4):
 
 # función para frenar el robot
 def frenar():
-    speed[0] = 0
-    speed[1] = 0
+    wheelL.setVelocity(0)
+    wheelR.setVelocity(0)
 
 # función para que el robot avance
 def avanzar():
-    speed[0] = MAX_VEL
-    speed[1] = MAX_VEL
+    wheelL.setVelocity(MAX_VEL)
+    wheelR.setVelocity(MAX_VEL)
 
 # modificamos la función "hay pared" para que frene cuando vea una en frente.
 def hayPared(valorDistancia):
@@ -49,6 +47,3 @@ while robot.step(TIME_STEP) != -1:
 
     # una vez que tenemos los 4 valores de los sensores llamamos a la función para analizar si hay que frenar o seguir
     hayPared(valorDistancia)
-
-    wheelL.setVelocity(speed[0])
-    wheelR.setVelocity(speed[1])
