@@ -24,16 +24,16 @@ def delay(ms):
 
 # TODOS LOS GIROS DEPENDEN DE LA VELOCIDAD Y EL TIEMPO
 # función girar 45 grados
-def girar45():
+def girar180():
     wheelL.setVelocity(-0.5 * MAX_VEL)
     wheelR.setVelocity(0.5 * MAX_VEL)
-    delay(350)
+    delay(1400)
 
 def frenar():
     wheelL.setVelocity(0)
     wheelR.setVelocity(0)   
 
 while robot.step(TIME_STEP) != -1:
-    girar45()
+    girar180()
     frenar()
     delay(1000)
