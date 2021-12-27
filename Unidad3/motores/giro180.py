@@ -22,6 +22,18 @@ def delay(ms):
         if (robot.getTime() - initTime) * 1000.0 > ms:
             break
 
-while robot.step(TIME_STEP) != -1:
+# TODOS LOS GIROS DEPENDEN DE LA VELOCIDAD Y EL TIEMPO
+# función girar 45 grados
+def girar45():
+    wheelL.setVelocity(-0.5 * MAX_VEL)
+    wheelR.setVelocity(0.5 * MAX_VEL)
+    delay(350)
+
+def frenar():
     wheelL.setVelocity(0)
-    wheelR.setVelocity(0)
+    wheelR.setVelocity(0)   
+
+while robot.step(TIME_STEP) != -1:
+    girar45()
+    frenar()
+    delay(1000)
