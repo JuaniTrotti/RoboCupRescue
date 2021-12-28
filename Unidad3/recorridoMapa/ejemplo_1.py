@@ -7,29 +7,15 @@ robot = Robot()
 
 wheelL = robot.getDevice("wheel1 motor")
 wheelL.setPosition(float("inf"))
-wheelL.setVelocity(0)
-
-encoderL = robot.getDevice("wheel1 sensor")
-encoderL.enable(TIME_STEP)
 
 wheelR = robot.getDevice("wheel2 motor")
 wheelR.setPosition(float("inf"))
-wheelR.setVelocity(0)
-
-encoderR = robot.getDevice("wheel2 sensor")
-encoderR.enable(TIME_STEP)
 
 ps7 = robot.getDevice("ps7")
 ps7.enable(TIME_STEP)
 
-ps6 = robot.getDevice("ps6")
-ps6.enable(TIME_STEP)
-
 ps5 = robot.getDevice("ps5")
 ps5.enable(TIME_STEP)
-
-gyro = robot.getDevice("gyro")
-gyro.enable(TIME_STEP)
 
 def delay(ms):
     initTime = robot.getTime()
@@ -38,39 +24,22 @@ def delay(ms):
             break
 
 def turnRight():
-    wheelL.setVelocity(0)
-    wheelR.setVelocity(0)
-    delay(1)
-    l0 = encoderL.getValue()
     wheelL.setVelocity(MAX_VEL)
     wheelR.setVelocity(-MAX_VEL)
-    while encoderL.getValue() - l0 < 2.15:
-        delay(TIME_STEP)
+    delay(350)
     wheelL.setVelocity(0)
     wheelR.setVelocity(0)
     delay(1)
-
 
 def turnLeft():
-    wheelL.setVelocity(0)
-    wheelR.setVelocity(0)
-    delay(1)
-    r0 = encoderR.getValue()
     wheelL.setVelocity(0.30*MAX_VEL)
     wheelR.setVelocity(1.00*MAX_VEL)
-    while encoderR.getValue() - r0 < 2.15:
-        delay(TIME_STEP)
+    delay(350)
     wheelL.setVelocity(0)
     wheelR.setVelocity(0)
     delay(1)
 
 while robot.step(TIME_STEP) != -1:
-    print("================")
-    print(f"ps7: {ps7.getValue()}")
-    print(f"ps6: {ps6.getValue()}")
-    print(f"ps5: {ps5.getValue()}")
-    print("================")
-
     dist_left = ps5.getValue()
     dist_front = ps7.getValue()
 
