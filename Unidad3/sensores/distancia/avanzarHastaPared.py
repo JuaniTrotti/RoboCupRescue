@@ -1,7 +1,8 @@
-# apnuntar el robot donde no haya paredes
-from controller import Robot, DistanceSensor
+# Ejercicio: Avanzar hasta encontrar una pared
+# IMPORTANTE: Usar mapa_pasillo.wbt
+from controller import Robot
 
-# estas variables siempre tienen que estar
+# Estas variables siempre tienen que estar
 TIME_STEP = 32
 MAX_VEL = 6.28
 
@@ -13,37 +14,34 @@ wheelR = robot.getDevice("wheel2 motor")
 wheelL.setPosition(float("inf"))
 wheelR.setPosition(float("inf"))
 
+# Creamos un array para los valores de los sensores, para poder tener todos 
+# los valores al mismo tiempo. la posición 0 corresponde al sensor ps0
 sensoresDistancia = []
-valorDistancia = []  # creamos un array para los valores de los sensores, para tener todos los valores al mismo tiempo. la posicion 0 corresponde al sensor que está
-                     # en la posición 0
 
-for i in range(4):
+# En un loop inicializamos todos los sensores y los cargamos en el array
+for i in range(8):
     sensoresDistancia.append(robot.getDevice("ps" + str(i)))
     sensoresDistancia[i].enable(TIME_STEP)
-    valorDistancia.append(0)  # inicializamos el arreglo en 0
 
-# función para frenar el robot
+# Función para frenar el robot
 def frenar():
     wheelL.setVelocity(0)
     wheelR.setVelocity(0)
 
-# función para que el robot avance
+# Función para que el robot avance
 def avanzar():
     wheelL.setVelocity(MAX_VEL)
     wheelR.setVelocity(MAX_VEL)
 
-# modificamos la función "hay pared" para que frene cuando vea una en frente.
-def hayPared(valorDistancia):
-    if valorDistancia[0] < 0.06:
-        frenar()
-        print("no puedo pasar, hay una pared")
-    else:
-        avanzar()
+# La función "hayPared" recibe un sensor y devuelve 
+# True si detecta una pared y False en el caso contrario
+def hayPared(sensor):
+    return sensor.getValue() < 0.06
 
 while robot.step(TIME_STEP) != -1:
-
-    for i in range(4):
-        valorDistancia[i] = sensoresDistancia[i].getValue() # llenamos el array con los valores de los sensores
-
-    # una vez que tenemos los 4 valores de los sensores llamamos a la función para analizar si hay que frenar o seguir
-    hayPared(valorDistancia)
+    # Sólo nos interesa chequear el sensor ps0
+    if hayPared(sensoresDistancia[0]):
+        frenar()
+        print("NO puedo pasar, hay una pared!")
+    else:
+        avanzar()

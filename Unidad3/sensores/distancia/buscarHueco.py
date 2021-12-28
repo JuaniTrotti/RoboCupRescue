@@ -1,20 +1,32 @@
-# apnuntar el robot donde no haya paredes
-from controller import Robot, DistanceSensor
+# Ejercicio: Detectar el hueco alrededor del robot
+# IMPORTANTE: Usar mapa_salida.wbt
+from controller import Robot
 
-# estas variables siempre tienen que estar
+# Estas variables siempre tienen que estar
 TIME_STEP = 32
 MAX_VEL = 6.28
 
 robot = Robot()
 
-wheelL = robot.getDevice("wheel2 motor")
-wheelR = robot.getDevice("wheel1 motor")
+wheelL = robot.getDevice("wheel1 motor")
+wheelR = robot.getDevice("wheel2 motor")
 
 wheelL.setPosition(float("inf"))
 wheelR.setPosition(float("inf"))
 
+# Creamos un array para los valores de los sensores, para poder tener todos 
+# los valores al mismo tiempo. la posición 0 corresponde al sensor ps0
 sensoresDistancia = []
-valorDistancia = []
+
+# En un loop inicializamos todos los sensores y los cargamos en el array
+for i in range(8):
+    sensoresDistancia.append(robot.getDevice("ps" + str(i)))
+    sensoresDistancia[i].enable(TIME_STEP)
+
+# La función "hayPared" recibe un sensor y devuelve 
+# True si detecta una pared y False en el caso contrario
+def hayPared(sensor):
+    return sensor.getValue() < 0.06
 
 def delay(ms):
     initTime = robot.getTime()
@@ -22,37 +34,20 @@ def delay(ms):
         if (robot.getTime() - initTime) * 1000.0 > ms:
             break
 
-for i in range(4):
-    sensoresDistancia.append(robot.getDevice("ps" + str(i)))
-    sensoresDistancia[i].enable(TIME_STEP)
-    valorDistancia.append(0)
-
 def girar90():
-    wheelL.setVelocity(-0.5 * MAX_VEL)
-    wheelR.setVelocity(0.5 * MAX_VEL)
-    delay(700)
+    wheelL.setVelocity(-0.25 * MAX_VEL)
+    wheelR.setVelocity(0.25 * MAX_VEL)
+    delay(1400)
 
-
-# nos fijamos si un sensor esta viendo una pared
-def hayPared(valorDistancia):
-    if valorDistancia[0] < 0.1:
-        print("Tengo una pared en frente")
-        encarar()
-    else:
-        print("No tengo una pared en frente")
-
-# el robot gira
-def encarar():
-    girar90()
-
+def frenar():
+    wheelL.setVelocity(0)
+    wheelR.setVelocity(0)
 
 while robot.step(TIME_STEP) != -1:
-    # speed[0] = 0
-    # speed[1] = 0
-    # wheelL.setVelocity(speed[0])
-    # wheelR.setVelocity(speed[1])
-
-    for i in range(4):
-        valorDistancia[i] = sensoresDistancia[i].getValue()
-
-    hayPared(valorDistancia)
+    # Nos interesa chequear los dos sensores frontales (ps0 y ps7)
+    if hayPared(sensoresDistancia[0]) or hayPared(sensoresDistancia[7]):
+        print("Tengo una pared enfrente, no puedo salir...")
+        girar90()
+    else:
+        print("Camino despejado. Encontré la salida!")
+        frenar()

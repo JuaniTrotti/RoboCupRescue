@@ -1,25 +1,23 @@
-# en este ejercicio aprenderemos a utilizar más de un sensor de distancia e imprimirlo por consola
-from controller import Robot, DistanceSensor
+# Ejercicio: Activar más de un sensor de distancia e imprimir sus valores por consola
+from controller import Robot
 
-# estas variables siempre tienen que estar
 TIME_STEP = 32
 MAX_VEL = 6.28
 
 robot = Robot()
 
-# podemos crear y activar uno por uno pero si los sensores tienen los nombres de la siguiente manera "nombredelsensor NRO"
-# creamos un array que contenga todos los sensores
+# Creamos un array que contenga todos los sensores
 sensoresDistancia = []
 
-# usamos un for para agregar todos los sensores en las posiciones del array y los activamos. 
-# IMPORTANTE, LOS ARRAYS EN PYTHON COMIENZAN EN LA POSICIÓN 0, es decir que los sensores que tengas tienen que ser así: sensor0, sensor1 .... sensor N
-for i in range(4):
-    sensoresDistancia.append(robot.getDevice("ps" + str(i))) # con la funcion str() convertimos i (que es un entero) en un string y asi podemos concatenar. 
-    sensoresDistancia[i].enable(TIME_STEP) # aca el elemento que está en la posición i del array lo activamos.
+# Usamos un for para agregar todos los sensores en las posiciones del array y los activamos. 
+# IMPORTANTE: LOS ARRAYS EN PYTHON COMIENZAN EN LA POSICIÓN 0
+for i in range(8):
+    sensoresDistancia.append(robot.getDevice("ps" + str(i))) # Con la funcion str() convertimos i (que es un entero) en un string y asi podemos concatenar
+    sensoresDistancia[i].enable(TIME_STEP) # Activamos el sensor recién creado, que está en la posición i del array
 
 while robot.step(TIME_STEP) != -1:
-
-    # usamos un for para consultar el valor de cada sensor.
-    for i in range(4):
-        distancia = sensoresDistancia[i].getValue() # obtenemos el valor del sensor
-        print("distancia" + str(i) + ":" + str(distancia)) # imprimimos el sensor con su valor
+    # Usamos un for para consultar el valor de cada sensor.
+    for i in range(8):
+        distancia = sensoresDistancia[i].getValue() # Obtenemos el valor del sensor
+        print("Distancia " + str(i) + ": " + str(distancia)) # Imprimimos el sensor con su valor
+    print("-------------------") # Imprimimos una línea para separar los ciclos de la simulación
