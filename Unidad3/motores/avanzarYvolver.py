@@ -1,51 +1,43 @@
-# ejericio: avanzar un determinado tiempo y retroceder al inicio
+# Ejercicio 2: Avanzar un determinado tiempo y retroceder al inicio
 from controller import Robot 
 
-# estas variables siempre tienen que estar
+# Estas variables siempre tienen que estar
 TIME_STEP = 32
 MAX_VEL = 6.28
 
-# variable para romper condicional
-cont = 1
-
-#creamos la instancia del controlador del robot
+# Creamos la instancia del controlador del robot
 robot = Robot()
 
-#creamos los objetos para controlar las ruedas
+# Creamos los objetos para controlar las ruedas
 wheelL = robot.getDevice("wheel1 motor")
 wheelR = robot.getDevice("wheel2 motor")
 
-
-#definimos la rotación de las ruedas para que esa infinita
+# Definimos la rotación de las ruedas para que sea infinita
 wheelL.setPosition(float("inf"))
 wheelR.setPosition(float("inf"))
 
-# esta función sirve para que el robot no haga caso a ninguna nueva instrucción durante un determinado tiempo
+# Esta función sirve para que el robot no haga caso a ninguna nueva 
+# instrucción durante un tiempo determinado
 def delay(ms):
     initTime = robot.getTime()
     while robot.step(TIME_STEP) != -1:
         if (robot.getTime() - initTime) * 1000.0 > ms:
             break
 
-# funciones nuevas
-# avanza en línea recta
+# Funciones nuevas
+# Avanza en línea recta
 def avanzar():
     wheelL.setVelocity(MAX_VEL)
     wheelR.setVelocity(MAX_VEL)
-    delay(1600)
 
-# retroce en línea recta
+# Retrocede en línea recta
 def retroceder():
-    wheelL.setVelocity(MAX_VEL *-1)
-    wheelR.setVelocity(MAX_VEL *-1)
-    delay(1600)
+    wheelL.setVelocity(MAX_VEL * -1)
+    wheelR.setVelocity(MAX_VEL * -1)
 
+# Loop principal
 while robot.step(TIME_STEP) != -1: 
-
-    if cont == 2:
-        retroceder()
-        cont -= 1
-  
-    if cont == 1:
-        avanzar()
-        cont += 1
+    avanzar()
+    delay(1600)
+    retroceder()    
+    delay(1600)
