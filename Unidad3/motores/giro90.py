@@ -27,8 +27,8 @@ def delay(ms):
 # EL GIRO DEPENDE DE LA VELOCIDAD Y EL TIEMPO
 # función girar 90 grados
 def girar90():
-    wheelL.setVelocity(-0.5 * MAX_VEL)
-    wheelR.setVelocity(0.5 * MAX_VEL)
+    wheelL.setVelocity(0.5 * MAX_VEL)
+    wheelR.setVelocity(-0.5 * MAX_VEL)
     delay(700)
 
 def frenar():

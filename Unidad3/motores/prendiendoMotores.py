@@ -21,8 +21,8 @@ while robot.step(TIME_STEP) != -1:
     # Acá establecemos la velocidad a cada rueda. Es importante que 
     # cada rueda tenga una velocidad independiente. 
     # Más adelante lo usaremos para hacer giros
-    wheelL.setVelocity(MAX_VEL)
-    wheelR.setVelocity(MAX_VEL)
+    wheelL.setVelocity(0.5*MAX_VEL)
+    wheelR.setVelocity(0.5*MAX_VEL)
 
     # El robot no va a parar nunca.
 
