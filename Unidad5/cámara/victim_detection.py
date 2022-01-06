@@ -9,10 +9,9 @@ from random import random
 TIME_STEP = 32
 MAX_VEL = 6.28
 
-# Tenemos dos estados posibles:
 class State(Enum):
-    FOLLOW_LEFT = 1  # siguiendo la pared izquierda
-    FOLLOW_RIGHT = 2 # siguiendo la pared derecha
+    FOLLOW_LEFT = 1
+    FOLLOW_RIGHT = 2
 
 state = State.FOLLOW_RIGHT
 robot = Robot()
@@ -39,6 +38,7 @@ ps2.enable(TIME_STEP)
 cameraL = robot.getDevice("camera_left")
 cameraL.enable(TIME_STEP)
 
+# Cámara derecha
 cameraR = robot.getDevice("camera_right")
 cameraR.enable(TIME_STEP)
 
