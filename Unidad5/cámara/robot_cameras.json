@@ -1,0 +1,93 @@
+{
+	"Distance Sensor 1": {
+		"dictName": "Distance Sensor 1",
+		"name": "Distance Sensor",
+		"customName": "ps2",
+		"type": "",
+		"x": 370,
+		"y": 262,
+		"z": -64,
+		"rx": 1,
+		"ry": 0,
+		"rz": 0,
+		"a": 0
+	},
+	"Distance Sensor 2": {
+		"dictName": "Distance Sensor 2",
+		"name": "Distance Sensor",
+		"customName": "ps5",
+		"type": "",
+		"x": -370,
+		"y": 335,
+		"z": -64,
+		"rx": 0,
+		"ry": 1,
+		"rz": 0,
+		"a": 3.14
+	},
+	"Distance Sensor 3": {
+		"dictName": "Distance Sensor 3",
+		"name": "Distance Sensor",
+		"customName": "ps7",
+		"type": "",
+		"x": -81,
+		"y": 335,
+		"z": -355,
+		"rx": 0,
+		"ry": 1,
+		"rz": 0,
+		"a": 1.8
+	},
+	"Wheel 1": {
+		"dictName": "Wheel 1",
+		"name": "Wheel",
+		"customName": "wheel2",
+		"type": "",
+		"x": 260,
+		"y": 15,
+		"z": 0,
+		"rx": 0,
+		"ry": 0,
+		"rz": -1,
+		"a": 1.57
+	},
+	"Wheel 2": {
+		"dictName": "Wheel 2",
+		"name": "Wheel",
+		"customName": "wheel1",
+		"type": "",
+		"x": -260,
+		"y": 15,
+		"z": 0,
+		"rx": 0,
+		"ry": 0,
+		"rz": -1,
+		"a": 1.57
+	},
+	"camera1": {
+		"dictName": "camera1",
+		"name": "Camera",
+		"customName": "camera_left",
+		"type": "add",
+		"x": -370,
+		"y": 130,
+		"z": 0,
+		"rx": 0,
+		"ry": 1,
+		"rz": 0,
+		"a": 3.14
+	},
+	"camera2": {
+		"dictName": "camera2",
+		"name": "Camera",
+		"customName": "camera_right",
+		"type": "add",
+		"x": 370,
+		"y": 130,
+		"z": 0,
+		"rx": 0,
+		"ry": 0,
+		"rz": 0,
+		"a": 0
+	}
+}
