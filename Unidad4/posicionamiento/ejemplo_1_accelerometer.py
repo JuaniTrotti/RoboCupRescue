@@ -1,8 +1,8 @@
-# Ejemplo: Imprimier la aceleración del robot
+# Ejemplo: Imprimir la aceleración del robot en la consola
 from controller import Robot
 
 TIME_STEP = 32
-MAX_VEL = 6.28 # Velocidad máxima (1 vuelta por segundo)
+MAX_VEL = 6.28
 
 robot = Robot()
 
@@ -12,9 +12,11 @@ wheelL.setPosition(float("inf"))
 wheelR = robot.getDevice("wheel2 motor") 
 wheelR.setPosition(float("inf"))
 
+# Creamos el objeto accelerometer y lo habilitamos
 accel = robot.getDevice("accelerometer")
 accel.enable(TIME_STEP)
 
+# En esta variable vamos a guardar los valores que obtenemos del sensor
 acceleration = [0, 0, 0]
 
 def updateVars():

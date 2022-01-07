@@ -1,5 +1,5 @@
 # Ejercicio: Función girar() que reciba el ángulo a girar y use
-# el giroscopio para calcular cuándo detenerse
+# el giroscopio para calcular cuándo detenerse.
 from controller import Robot
 import math # Vamos a referirnos a algunas constantes matemáticas
 
