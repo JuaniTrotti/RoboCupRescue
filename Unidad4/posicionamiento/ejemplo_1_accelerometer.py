@@ -31,12 +31,12 @@ def updateVars():
 def delay(ms):
     initTime = robot.getTime()
     while robot.step(TIME_STEP) != -1:
-        updateVars()
+        updateVars() # Llamamos a updateVars() luego de robot.step()
         if (robot.getTime() - initTime) * 1000.0 > ms:
             break
 
 while robot.step(TIME_STEP) != -1:
-    updateVars()
+    updateVars() # Llamamos a updateVars() luego de robot.step()
 
     wheelL.setVelocity(0.25*MAX_VEL)
     wheelR.setVelocity(0.25*MAX_VEL)
