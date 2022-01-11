@@ -6,6 +6,12 @@ MAX_VEL = 6.28
 
 robot = Robot()
 
+# wheelL = robot.getDevice("wheel1 motor") 
+# wheelL.setPosition(float("inf"))
+
+# wheelR = robot.getDevice("wheel2 motor") 
+# wheelR.setPosition(float("inf"))
+
 # Obtener el sensor de color y habilitarlo
 colorSensor = robot.getDevice("colour_sensor")
 colorSensor.enable(TIME_STEP)
@@ -20,6 +26,7 @@ def esPantano(r, g, b):
 while robot.step(TIME_STEP) != -1:
     # Acceder al color detectado por el sensor. El canal A lo ignoramos.
     b, g, r, a = colorSensor.getImage()
+
 
     # Si llegamos a un pantano, mostramos un mensaje
     if esPantano(r, g, b):
