@@ -1,16 +1,10 @@
-# Ejemplo: Imprimir el color RGB que ve el sensor de color
+# Ejemplo: Detección de pantano usando el sensor de color
 from controller import Robot
 
 TIME_STEP = 32
 MAX_VEL = 6.28
 
 robot = Robot()
-
-# wheelL = robot.getDevice("wheel1 motor") 
-# wheelL.setPosition(float("inf"))
-
-# wheelR = robot.getDevice("wheel2 motor") 
-# wheelR.setPosition(float("inf"))
 
 # Obtener el sensor de color y habilitarlo
 colorSensor = robot.getDevice("colour_sensor")
