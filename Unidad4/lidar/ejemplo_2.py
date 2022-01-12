@@ -35,7 +35,8 @@ while robot.step(TIME_STEP) != -1:
     # Obtenemos la imagen
     image = lidar.getRangeImage()
 
-    # Estiramos la imagen para que tenga 64 pixeles de alto
+    # Convertimos la información de profundidad en pixeles en escala de grises
+    # y al mismo tiempo estiramos la imagen para que tenga 64 pixeles de alto
     pixels = []
     for d in flatten([p*32 for p in partition(image, 512)]):
         color = d * 255
