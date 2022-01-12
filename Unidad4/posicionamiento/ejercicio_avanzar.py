@@ -49,13 +49,13 @@ def avanzar(distance):
 
 
     while step() != -1:
-        delta = dist(position, initPos)
-
         vel = 0.25 if distance > 0 else -0.25
         wheelL.setVelocity(vel*MAX_VEL)
         wheelR.setVelocity(vel*MAX_VEL)
 
-        if delta >= distance:
+        delta = dist(position, initPos)
+
+        if delta >= abs(distance):
             break
     
     wheelL.setVelocity(0)
@@ -65,4 +65,5 @@ while step() != -1:
     avanzar(0.12)
     delay(1000)
 
-    
+    avanzar(-0.12)
+    delay(1000)
