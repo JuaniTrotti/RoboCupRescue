@@ -1,7 +1,7 @@
 # Ejemplo 1: Visualización de la info del LIDAR
 # NOTA: Usar robot "robot_lidar.json"
 from controller import Robot
-import csv
+import csv # Librería para escribir y leer archivos CSV
 
 TIME_STEP = 32
 
