@@ -94,7 +94,7 @@ def girar(rad):
         lastRot = rotation
 
         # Luego calculamos cuánto falta por girar
-        diff = angle_diff(deltaRot, rad)
+        diff = angle_diff(deltaRot, abs(rad))
 
         # En función de lo que falta por girar calculamos la velocidad de cada rueda
         mul = (5/math.pi) * diff
