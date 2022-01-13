@@ -19,6 +19,15 @@ ps7.enable(TIME_STEP)
 ps7 = robot.getDevice("ps7")
 ps7.enable(TIME_STEP)
 
+ps5 = robot.getDevice("ps5")
+ps5.enable(TIME_STEP)
+
+ps2 = robot.getDevice("ps2")
+ps2.enable(TIME_STEP)
+
+ps4 = robot.getDevice("ps4")
+ps4.enable(TIME_STEP)
+
 gyro = robot.getDevice("gyro")
 gyro.enable(TIME_STEP)
 
@@ -117,6 +126,12 @@ def avanzar(distance):
 
 while step() != -1:
 
+    l = ps5.getValue() < 0.1
+    r = ps2.getValue() < 0.1
+    f = ps7.getValue() < 0.1
+    b = ps4.getValue() < 0.1
+    print(f"F: {f}, R: {r}, B: {b}, L: {l}")
+
     if ps7.getValue() < 0.08:        
         if random() < 0.5:
             girar(0.25*math.tau) # Girar derecha
@@ -124,3 +139,4 @@ while step() != -1:
             girar(-0.25*math.tau) # Girar izquierda
     else:
         avanzar(0.12) # Avanzar 1 baldosa
+    delay(1000)
