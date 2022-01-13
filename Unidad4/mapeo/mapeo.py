@@ -41,6 +41,9 @@ beginTime = robot.getTime()
 currentTime = beginTime
 deltaTime = 0
 
+x = 0
+y = 0
+
 def updatePosition():
     global position, initialPosition
     x, _, y = gps.getValues()
@@ -76,6 +79,18 @@ def angle_diff(a, b):
     clockwise = (a - b) % math.tau
     counterclockwise = (b - a) % math.tau
     return min(clockwise, counterclockwise)
+
+def looking_up(rot):
+    return angle_diff(rot, math.tau/4) < math.tau/8
+
+def looking_right(rot):
+    return angle_diff(rot, 0) < math.tau/8
+
+def looking_down(rot):
+    return angle_diff(rot, -math.tau/4) < math.tau/8
+
+def looking_left(rot):
+    return angle_diff(rot, math.tau/2) < math.tau/8
 
 def girar(rad):
     lastRot = rotation
@@ -126,12 +141,6 @@ def avanzar(distance):
 
 while step() != -1:
 
-    l = ps5.getValue() < 0.1
-    r = ps2.getValue() < 0.1
-    f = ps7.getValue() < 0.1
-    b = ps4.getValue() < 0.1
-    print(f"F: {f}, R: {r}, B: {b}, L: {l}")
-
     if ps7.getValue() < 0.08:        
         if random() < 0.5:
             girar(0.25*math.tau) # Girar derecha
@@ -139,4 +148,24 @@ while step() != -1:
             girar(-0.25*math.tau) # Girar izquierda
     else:
         avanzar(0.12) # Avanzar 1 baldosa
+            
+        if looking_up(rotation): y -= 1
+        if looking_right(rotation): x += 1
+        if looking_down(rotation): y += 1
+        if looking_left(rotation): x -= 1
+
+
+    l = ps5.getValue() < 0.1
+    r = ps2.getValue() < 0.1
+    f = ps7.getValue() < 0.1
+    b = ps4.getValue() < 0.1
+    print(f"F: {f}, R: {r}, B: {b}, L: {l}")
+
+    if looking_up(rotation): print("UP")
+    if looking_right(rotation): print("RIGHT")
+    if looking_down(rotation): print("DOWN")
+    if looking_left(rotation): print("LEFT")
+
+    print([x, y])
+
     delay(1000)
