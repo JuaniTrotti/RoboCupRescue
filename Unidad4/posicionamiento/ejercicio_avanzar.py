@@ -14,21 +14,35 @@ wheelL.setPosition(float("inf"))
 wheelR = robot.getDevice("wheel2 motor") 
 wheelR.setPosition(float("inf"))
 
-gps = robot.getDevice("gps") # Paso 1: Obtener el sensor
-gps.enable(TIME_STEP) # Paso 2: Habilitar el sensor
+gps = robot.getDevice("gps")
+gps.enable(TIME_STEP)
 
+# Vamos a guardar la posición del robot en la variable "position".
+# También interesa guardar la posición inicial del robot para poder
+# calcular la distancia recorrida.
 position = None
 initialPosition = None
 
+# La función "updateVars" sólo actualiza el valor de posición
 def updateVars():
     global position, initialPosition
+
+    # Representamos la posición del robot como un dictionary con
+    # dos valores "x" e "y". De esta forma reducimos el problema
+    # a 2 dimensiones (ignoramos el eje vertical)
     x, _, y = gps.getValues()
     position = {"x": x, "y": y}
 
+    # Sólo si la variable no tiene valor, guardamos la posición inicial.
+    # Esta variable sólo nos será útil para mostrar la distancia que
+    # recorrió el robot. 
     if initialPosition == None: initialPosition = position
     
-    print(f"{robot.getTime():.2f}) Position: {position}, Distance: {dist(position, initialPosition)}")
-
+    # (OPCIONAL): Mostramos en la consola la posición del robot y la
+    # distancia recorrida desde su posición inicial. 
+    print(f"Posición: {position}")
+    print(f"Distancia: {dist(position, initialPosition)}")
+    print("===========")
 
 def step():
     result = robot.step(TIME_STEP)
@@ -41,29 +55,33 @@ def delay(ms):
         if (robot.getTime() - initTime) * 1000.0 > ms:
             break
 
+# Función para calcular la distancia entre puntos 2D
 def dist(pt1, pt2):
     return math.sqrt((pt2["x"]-pt1["x"])**2 + (pt2["y"]-pt1["y"])**2)
 
+# Función avanzar(), recibe la distancia a recorrer en metros
 def avanzar(distance):
+    # Lo primero que hacemos es registrar la posición actual
     initPos = position
 
+    # Si la distancia es positiva avanzamos, negativa retrocedemos
+    vel = 0.25 if distance > 0 else -0.25
+    wheelL.setVelocity(vel*MAX_VEL)
+    wheelR.setVelocity(vel*MAX_VEL)
 
     while step() != -1:
-        vel = 0.25 if distance > 0 else -0.25
-        wheelL.setVelocity(vel*MAX_VEL)
-        wheelR.setVelocity(vel*MAX_VEL)
-
-        delta = dist(position, initPos)
-
-        if delta >= abs(distance):
+        # Calculamos la distancia recorrida desde que se llamó al método
+        # y si llegamos a la distancia deseada salimos del loop 
+        if dist(position, initPos) >= abs(distance):
             break
     
+    # Finalmente, frenamos los 2 motores
     wheelL.setVelocity(0)
     wheelR.setVelocity(0)
 
 while step() != -1:
-    avanzar(0.12)
+    avanzar(0.12) # Avanzar 1 baldosa
     delay(1000)
 
-    avanzar(-0.12)
+    avanzar(-0.12) # Retroceder 1 baldosa
     delay(1000)
