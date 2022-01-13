@@ -1,5 +1,6 @@
 from controller import Robot
 import math
+from random import random
 
 TIME_STEP = 32
 MAX_VEL = 6.28
@@ -11,6 +12,12 @@ wheelL.setPosition(float("inf"))
 
 wheelR = robot.getDevice("wheel2 motor") 
 wheelR.setPosition(float("inf"))
+
+ps7 = robot.getDevice("ps7")
+ps7.enable(TIME_STEP)
+
+ps7 = robot.getDevice("ps7")
+ps7.enable(TIME_STEP)
 
 gyro = robot.getDevice("gyro")
 gyro.enable(TIME_STEP)
@@ -109,17 +116,11 @@ def avanzar(distance):
     wheelR.setVelocity(0)
 
 while step() != -1:
-    avanzar(0.12) # Avanzar 1 baldosa
-    delay(1000)
 
-    girar(0.25*math.tau)
-    delay(1000)
-
-    girar(-0.25*math.tau)
-    delay(1000)
-    
-    avanzar(0.12) # Avanzar 1 baldosa
-    delay(1000)
-
-    avanzar(-0.12) # Retroceder 1 baldosa
-    delay(1000)
+    if ps7.getValue() < 0.08:        
+        if random() < 0.5:
+            girar(0.25*math.tau) # Girar derecha
+        else:
+            girar(-0.25*math.tau) # Girar izquierda
+    else:
+        avanzar(0.12) # Avanzar 1 baldosa
