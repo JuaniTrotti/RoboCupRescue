@@ -1,3 +1,5 @@
+# Ejercicio: Mejorar la estrategia de navegación usando las funciones
+# de posicionamiento para avanzar y girar.
 from controller import Robot
 import math
 from random import random
