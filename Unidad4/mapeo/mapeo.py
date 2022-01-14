@@ -8,7 +8,9 @@ TIME_STEP = 32
 MAX_VEL = 6.28
 
 # En esta carpeta vamos a escribi run archivo con la representación
-# textual del mapa trazado a medida que recorremos el laberinto
+# textual del mapa trazado a medida que recorremos el laberinto.
+# IMPORTANTE: Cambiar el valor de esta cadena de texto para que apunte
+# a una carpeta válida en el sistema (de otra forma, dará error)
 FOLDER = r"X:\RoboCupRescue\temp"
 
 # Declaramos las 4 direcciones en las que puede estar "mirando" el robot
@@ -269,7 +271,8 @@ while step() != -1:
         # haber avanzado)
         cur = tile(x, y)
 
-        # Conectamos ambas baldosas en la dirección en que está el robot
+        # Conectamos ambas baldosas teniendo en cuenta la dirección en la
+        # que avanzó el robot
         connectTiles(prev, cur, direction)
 
         # Y finalmente escribimos el mapa en un archivo
