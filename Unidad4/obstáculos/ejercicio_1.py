@@ -20,8 +20,6 @@ def hasObstacle():
     for i in range(0, 5):
         layer.append(dist[i].getValue())
 
-    print(layer)
-
     # Umbrales para objetos cercanos y lejanos
     t_near = 0.06
     t_far = 0.2
