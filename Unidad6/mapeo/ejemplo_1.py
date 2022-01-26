@@ -7,11 +7,11 @@ from random import random
 TIME_STEP = 32
 MAX_VEL = 6.28
 
-# En esta carpeta vamos a escribi run archivo con la representación
-# textual del mapa trazado a medida que recorremos el laberinto.
+# En este archivo vamos a escribir la representación textual del mapa 
+# trazado a medida que recorremos el laberinto.
 # IMPORTANTE: Cambiar el valor de esta cadena de texto para que apunte
 # a una carpeta válida en el sistema (de otra forma, dará error)
-FOLDER = r"X:\RoboCupRescue\temp"
+FILE = r"X:\RoboCupRescue\temp\map.txt"
 
 # Declaramos las 4 direcciones en las que puede estar "mirando" el robot
 class Direction(Enum):
@@ -46,7 +46,7 @@ rotation = 0.25*math.tau
 currentTime = robot.getTime()
 
 # En el siguiente dictionary vamos a registrar las baldosas visitadas,
-# Como claves usaremos siempre los valores x e y de cada baldosa, de 
+# Como claves usaremos siempre la columna y fila de cada baldosa, de 
 # esta forma podremos armar muy fácilmente una grilla dinámica.
 # IMPORTANTE: El formato que espera el supervisor para otorgar puntaje 
 # por el trazado del mapa es una matriz, NO un dictionary. Sin embargo,
@@ -139,7 +139,7 @@ def writeGrid():
     
     # Finalmente, abrimos el archivo y escribimos los caracteres que
     # representan a cada baldosa
-    with open(FOLDER + "/map.txt", "w") as f:
+    with open(FILE, "w") as f:
         for row in rows:
             for i in range(0, 3):
                 for chars in row:
