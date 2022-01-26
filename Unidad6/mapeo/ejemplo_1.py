@@ -58,30 +58,31 @@ grid = {}
 # Necesitamos también guardar la posición del robot relativa a la celda
 # de origen. En lugar de usar simplemente la variable "position", que 
 # representa la posición absoluta en metros, declaramos dos variables
-# "x" e "y", que representan índices dentro de la grilla
-x = 0
-y = 0
+# "row" y "col", que representan índices dentro de la grilla
+row = 0
+col = 0
 
-# Esta función recibe la dirección x e y de una baldosa y nos devuelve
+# Esta función recibe la fila y columna de una baldosa y nos devuelve
 # un objeto que representa la baldosa en esa posición de la grilla.
-def tile(x, y):
+def tile(col, row):
     # Primero chequeamos si la baldosa existe en la grilla, en cuyo 
     # caso la devolvemos
-    if (x, y) in grid: return grid[(x, y)]
+    if (col, row) in grid: return grid[(col, row)]
 
     # Si no existe, significa que estamos visitando una baldosa nueva,
     # creamos un objeto que guarda la información que sabemos hasta 
-    # ahora de la baldosa (esencialmente, su dirección x e y).
+    # ahora de la baldosa (esencialmente, su ubicación).
     # Además dejamos la estructura preparada para poder "conectar" la
     # baldosa con sus vecinas (si las hubiera)
-    t = {"x": x, "y": y,
+    t = {"col": col, 
+         "row": row,
          "up": None,
          "down": None,
          "left": None,
          "right": None}
 
-    # Agregamos la baldosa a la grilla en la dirección determinada
-    grid[(x, y)] = t
+    # Agregamos la baldosa a la grilla en la posición determinada
+    grid[(col, row)] = t
     return t # Devolvemos la baldosa
 
 # Esta función recibe dos baldosas y la dirección de movimiento del
@@ -111,24 +112,24 @@ def connectTiles(src, dst, direction):
 def writeGrid():
     # Primero buscamos los extremos del mapa, que nos servirá para iterar
     # en la grilla en el orden correcto.
-    min_x, min_y, max_x, max_y = 0, 0, 0, 0
-    for x, y in grid:
-        if x < min_x: min_x = x
-        if y < min_y: min_y = y
-        if x > max_x: max_x = x
-        if y > max_y: max_y = y
+    min_col, min_row, max_col, max_row = 0, 0, 0, 0
+    for c, r in grid:
+        if c < min_col: min_col = c
+        if r < min_row: min_row = r
+        if c > max_col: max_col = c
+        if r > max_row: max_row = r
 
     # Luego revisamos una por una cada baldosa y calculamos los caracteres
     # a imprimir de acuerdo a sus características (si es la baldosa de
     # inicio, si tiene vecinos cuáles, etc.)
     rows = []
-    for y in range(min_y, max_y + 1):
+    for r in range(min_row, max_row + 1):
         row = []
-        for x in range(min_x, max_x + 1):
-            t = grid.get((x, y))
+        for c in range(min_col, max_col + 1):
+            t = grid.get((c, r))
             chars = [["+", "-", "+"],["|", "?", "|"],["+", "-", "+"]]
             if t != None:
-                chars[1][1] = "@" if x == 0 and y == 0 else " "
+                chars[1][1] = "@" if c == 0 and r == 0 else " "
                 if t["up"] != None: chars[0][1] = " "
                 if t["right"] != None: chars[1][2] = " "
                 if t["down"] != None: chars[2][1] = " "
@@ -255,21 +256,21 @@ while step() != -1:
         # Si el camino está despejado entonces avanzamos, pero primero
         # registramos en una variable la baldosa en la que estamos ahora
         # (antes de realizar el movimiento)
-        prev = tile(x, y)
+        prev = tile(col, row)
 
         # Avanzamos 0.12 m (es decir, una baldosa)
         avanzar(0.12)
             
-        # Actualizamos el valor de x o y dependiendo del movimiento que
+        # Actualizamos el valor de col o row dependiendo del movimiento que
         # haya hecho el robot
-        if direction == Direction.UP: y -= 1
-        elif direction == Direction.RIGHT: x += 1
-        elif direction == Direction.DOWN: y += 1
-        elif direction == Direction.LEFT: x -= 1
+        if direction == Direction.UP: row -= 1
+        elif direction == Direction.RIGHT: col += 1
+        elif direction == Direction.DOWN: row += 1
+        elif direction == Direction.LEFT: col -= 1
         
         # Luego vamos a buscar a la grilla la baldosa actual (luego de
         # haber avanzado)
-        cur = tile(x, y)
+        cur = tile(col, row)
 
         # Conectamos ambas baldosas teniendo en cuenta la dirección en la
         # que avanzó el robot
@@ -280,5 +281,5 @@ while step() != -1:
 
     # (OPCIONAL) Mostramos en consola la dirección y ubicación del robot
     print(direction)
-    print([x, y])
+    print([col, row])
     print("-----------")
