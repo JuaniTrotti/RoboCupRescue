@@ -1,4 +1,4 @@
-# Ejemplo: Trazar un mapa básico
+# Ejemplo 1: Trazando un mapa básico
 from controller import Robot
 from enum import Enum
 import math
