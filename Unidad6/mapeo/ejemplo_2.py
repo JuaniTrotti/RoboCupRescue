@@ -384,9 +384,7 @@ while step() != -1:
 
     # Elegimos una baldosa para movernos (preferiblemente no visitada)
     next_tile = next((tile for tile in candidates if not tile["visited"]), candidates[0])
-    if next_tile == None:
-        next_tile = candidates[0][0]
-
+    
     # Movemos el robot hacia la baldosa elegida
     move(cur_tile, next_tile)
 
