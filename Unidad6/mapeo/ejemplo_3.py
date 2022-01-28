@@ -230,7 +230,7 @@ def createMatrix(grid):
     # Creamos la matriz usando NumPy. Especificamos el tamaño de la misma en función 
     # de la cantidad de filas y columnas calculada anteriormente. También establecemos
     # el valor por defecto en '0'
-    matrix = np.full((cols*4 + 1, rows*4 + 1), '0')
+    matrix = np.full((rows*4 + 1, cols*4 + 1), '0')
 
     # Recorremos la grilla baldosa por baldosa y vamos modificando las celdas de la
     # matriz dependiendo de las características de cada baldosa.
