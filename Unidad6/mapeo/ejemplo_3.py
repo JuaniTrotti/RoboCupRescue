@@ -1,4 +1,4 @@
-# Ejemplo 2: Agregamos información extra al mapa y mejoramos la navegación
+# Ejemplo 3: Generación de la matriz en el formato correcto
 from controller import Robot
 from enum import Enum
 import math
