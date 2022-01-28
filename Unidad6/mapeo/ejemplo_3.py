@@ -5,10 +5,6 @@ import math
 import numpy as np
 import struct
 
-# ACAACA
-import os
-import pickle
-
 
 TIME_STEP = 32
 MAX_VEL = 6.28
@@ -18,16 +14,6 @@ MAX_VEL = 6.28
 # IMPORTANTE: Cambiar el valor de esta cadena de texto para que apunte
 # a una carpeta válida en el sistema (de otra forma, dará error)
 FILE = r"X:\RoboCupRescue\temp\map.txt"
-
-FOLDER = r"X:\RoboCupRescue\temp"
-
-def spit(data, path):
-    with open(os.path.join(FOLDER, path), "wb") as file:
-        return pickle.dump(data, file)
-
-def slurp(path):
-    with open(os.path.join(FOLDER, path), "rb") as file:
-        return pickle.load(file)
 
 # Declaramos las 4 direcciones en las que puede estar "mirando" el robot
 class Direction(Enum):
@@ -66,7 +52,7 @@ gyro.enable(TIME_STEP)
 gps = robot.getDevice("gps")
 gps.enable(TIME_STEP)
 
-# ACAACA
+# Usaremos el emisor para enviar el mapa generado
 emitter = robot.getDevice("emitter")
 
 position = None
@@ -222,6 +208,93 @@ def writeGrid():
                 for chars in char_group:
                     f.write("".join(chars[i]))
                 f.write("\n")
+
+# Esta función genera la matriz en el formato que espera el supervisor de Erebus a
+# partir de la grilla que estamos usando para almacenar el mapa en memoria.
+def createMatrix(grid):
+    # Primero buscamos los extremos del mapa exactamente igual que en writeGrid()
+    min_col, min_row, max_col, max_row = 0, 0, 0, 0
+    for c, r in grid:
+        t = grid.get((c, r))
+        if t == None or not isConnected(t): continue # Ignoramos baldosas aisladas
+        if c < min_col: min_col = c
+        if r < min_row: min_row = r
+        if c > max_col: max_col = c
+        if r > max_row: max_row = r
+
+    # Luego calculamos la cantidad de filas y columnas, para poder crear la matriz
+    # con las dimensiones correctas 
+    rows = max_row - min_row + 1
+    cols = max_col - min_col + 1
+    
+    # Creamos la matriz usando NumPy. Especificamos el tamaño de la misma en función 
+    # de la cantidad de filas y columnas calculada anteriormente. También establecemos
+    # el valor por defecto en '0'
+    matrix = np.full((cols*4 + 1, rows*4 + 1), '0')
+
+    # Recorremos la grilla baldosa por baldosa y vamos modificando las celdas de la
+    # matriz dependiendo de las características de cada baldosa.
+    for r in range(0, rows):
+        for c in range(0, cols):
+            t = grid.get((min_col + c, min_row + r))
+            if t == None: continue # Si no tenemos info de la baldosa, pasamos a la siguiente
+
+            # Pared arriba
+            if t["up"] == None:
+                matrix[r*4, c*4:c*4+5] = '1'
+
+            # Pared a la izquierda
+            if t["left"] == None:
+                matrix[r*4:r*4+5, c*4] = '1'
+
+            # Última columna y pared a la derecha
+            if c == cols-1 and t["right"] == None:
+                matrix[r*4:r*4+4, c*4+4] = '1'
+
+            # Última fila y pared abajo
+            if r == rows-1 and t["down"] == None:
+                matrix[r*4+4, c*4:c*4+4] = '1'
+
+            # Caso especial: esquina inferior derecha
+            if c == cols-1 and r == rows-1:
+                if t["right"] == None or t["down"] == None:
+                    matrix[r*4+4, c*4+4] = '1'
+
+            # Baldosa de salida
+            if min_col + c == 0 and min_row + r == 0:
+                matrix[r*4+1, c*4+1] = '5'
+                matrix[r*4+3, c*4+1] = '5'
+                matrix[r*4+3, c*4+3] = '5'
+                matrix[r*4+1, c*4+3] = '5'
+
+    # Devolvemos la matriz
+    return matrix
+
+# Esta función codifica la matriz en bytes y los manda al supervisor
+def sendMatrix(matrix):
+    # Obtenemos la "forma" de la matriz y la convertimos en bytes
+    s = matrix.shape
+    s_bytes = struct.pack('2i',*s)
+
+    # Aplanamos la matriz y la unimos usando el caracter ',' como separador
+    flatMap = ','.join(matrix.flatten())
+    # Codificamos la matriz en UTF-8
+    sub_bytes = flatMap.encode('utf-8')
+
+    # Sumamos los bytes que describen la "forma" de la matriz con los bytes
+    # que representan a la matriz misma
+    a_bytes = s_bytes + sub_bytes
+
+    # Enviamos los datos
+    emitter.send(a_bytes)
+    # Solicitamos una evaluación del mapa enviado
+    map_evaluate_request = struct.pack('c', b'M')
+    emitter.send(map_evaluate_request)
+
+    #########
+    # Finalmente enviamos el mensaje de salida
+    exit_mes = struct.pack('c', b'E')
+    emitter.send(exit_mes)
 
 # Esta función lee el valor del gps y actualiza la variable "position"
 def updatePosition():
@@ -383,68 +456,6 @@ def move(cur_tile, next_tile):
     # Y finalmente avanzamos la distancia de 1 baldosa
     avanzar(0.12)
 
-def createMatrix(grid):
-    min_col, min_row, max_col, max_row = 0, 0, 0, 0
-    for c, r in grid:
-        t = grid.get((c, r))
-        if t == None or not isConnected(t): continue # Ignoramos baldosas aisladas
-        if c < min_col: min_col = c
-        if r < min_row: min_row = r
-        if c > max_col: max_col = c
-        if r > max_row: max_row = r
-
-    cols = max_col - min_col + 1
-    rows = max_row - min_row + 1
-
-    matrix = np.full((cols*4 + 1, rows*4 + 1), '0')
-    for r in range(0, rows):
-        for c in range(0, cols):
-            t = grid.get((min_col + c, min_row + r))
-            if t == None: continue
-
-            if t["up"] == None:
-                matrix[r*4, c*4:c*4+5] = '1'
-            if t["left"] == None:
-                matrix[r*4:r*4+5, c*4] = '1'
-            if c == cols-1 and t["right"] == None:
-                matrix[r*4:r*4+4, c*4+4] = '1'
-            if r == rows-1 and t["down"] == None:
-                matrix[r*4+4, c*4:c*4+4] = '1'
-            if c == cols-1 and r == rows-1:
-                if t["right"] == None or t["down"] == None:
-                    matrix[r*4+4, c*4+4] = '1'
-            if min_col + c == 0 and min_row + r == 0:
-                matrix[r*4+1, c*4+1] = '5'
-                matrix[r*4+3, c*4+1] = '5'
-                matrix[r*4+3, c*4+3] = '5'
-                matrix[r*4+1, c*4+3] = '5'
-    return matrix
-
-def sendMatrix(matrix):    
-    # Get shape
-    s = matrix.shape
-    # Get shape as bytes
-    s_bytes = struct.pack('2i',*s)
-
-    # Flattening the matrix and join with ','
-    flatMap = ','.join(matrix.flatten())
-    # Encode
-    sub_bytes = flatMap.encode('utf-8')
-
-    # Add togeather, shape + map
-    a_bytes = s_bytes + sub_bytes
-
-    # Send map data
-    emitter.send(a_bytes)
-    # Send map evaluate request
-    map_evaluate_request = struct.pack('c', b'M')
-    emitter.send(map_evaluate_request)
-
-    #########
-    #Exit message
-    exit_mes = struct.pack('c', b'E')
-    emitter.send(exit_mes)
-
 
 while step() != -1:
     # Primero marcamos la baldosa actual como visitada
@@ -483,13 +494,10 @@ while step() != -1:
     print([col, row])
     print("-----------")
 
-    spit(grid, "map.bin")
-
     if len(list(t for t in grid.values() if not t["visited"] and isConnected(t))) == 0:
         wheelL.setVelocity(0)
         wheelR.setVelocity(0)
 
         matrix = createMatrix(grid)
         sendMatrix(matrix)
-        print("BYE!")
         break
