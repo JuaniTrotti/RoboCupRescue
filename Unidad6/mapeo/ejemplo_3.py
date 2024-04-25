@@ -494,6 +494,7 @@ while step() != -1:
     print([col, row])
     print("-----------")
 
+    # Si no hay más baldosas pendientes por visitar, frenamos el robot y mandamos la matriz
     if len(list(t for t in grid.values() if not t["visited"] and isConnected(t))) == 0:
         wheelL.setVelocity(0)
         wheelR.setVelocity(0)
